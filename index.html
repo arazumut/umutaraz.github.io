@@ -21,6 +21,766 @@
     <title>Kamil Umut Araz</title>
     <link rel="shortcut icon" href="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" type="image/x-icon">
 
+    <!-- Özel CSS Stilleri -->
+    <style>
+        /* CSS Değişkenleri - Light/Dark Mode */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-accent: #6366f1;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.2);
+            --timeline-bg: rgba(255, 255, 255, 0.1);
+            --contact-bg: rgba(255, 255, 255, 0.1);
+            --social-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #111827;
+            --bg-secondary: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-accent: #818cf8;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-light: rgba(0, 0, 0, 0.3);
+            --shadow-medium: rgba(0, 0, 0, 0.5);
+            --timeline-bg: rgba(255, 255, 255, 0.05);
+            --contact-bg: rgba(255, 255, 255, 0.05);
+            --social-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Dark Mode Geçiş Animasyonları */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Body Background */
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        /* Dark Mode Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px var(--shadow-medium);
+            border-color: var(--text-accent);
+        }
+
+        .theme-toggle i {
+            font-size: 18px;
+            transition: all 0.4s ease;
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
+        }
+
+        /* Dark mode'da farklı ikon gösterimi */
+        [data-theme="light"] .theme-toggle .fa-moon {
+            display: inline;
+        }
+
+        [data-theme="light"] .theme-toggle .fa-sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-moon {
+            display: none;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-sun {
+            display: inline;
+        }
+
+        /* Profesyonel Yolculuk - Timeline Geliştirmeleri */
+        .mil-timeline {
+            position: relative;
+            padding-left: 0;
+        }
+
+        .mil-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .mil-timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 60px;
+            transition: all 0.4s ease;
+        }
+
+        .mil-timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 25px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 4px 15px rgba(99, 102, 241, 0.3);
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        .mil-timeline-item:hover::before {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.3), 0 6px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .mil-timeline-content {
+            background: linear-gradient(135deg, var(--timeline-bg), var(--glass-bg));
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 32px var(--shadow-light);
+        }
+
+        .mil-timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .mil-timeline-content:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px var(--shadow-medium);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .mil-timeline-date {
+            position: absolute;
+            left: -20px;
+            top: 0;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            white-space: nowrap;
+            z-index: 3;
+        }
+
+        .mil-timeline-content h4 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .mil-timeline-content .mil-text-sm.mil-a2 a {
+            color: var(--text-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mil-timeline-content .mil-text-sm.mil-a2 a:hover {
+            color: #8b5cf6;
+            text-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .mil-timeline-content .mil-text-sm.mil-a2 a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.3s ease;
+        }
+
+        .mil-timeline-content .mil-text-sm.mil-a2 a:hover::after {
+            width: 100%;
+        }
+
+        /* İletişim Bölümü Geliştirmeleri */
+        .mil-contact-item {
+            background: linear-gradient(135deg, var(--contact-bg), var(--glass-bg));
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-light);
+        }
+
+        .mil-contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #06d6a0, #00d4aa);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .mil-contact-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px var(--shadow-medium);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .mil-contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #10b981, #06d6a0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .mil-contact-item:hover .mil-contact-icon {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5);
+        }
+
+        .mil-contact-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .mil-contact-content h4 {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .mil-contact-content a {
+            color: #10b981;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mil-contact-content a:hover {
+            color: #059669;
+            text-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .mil-contact-content a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #06d6a0);
+            transition: width 0.3s ease;
+        }
+
+        .mil-contact-content a:hover::after {
+            width: 100%;
+        }
+
+        /* Sosyal Medya Geliştirmeleri */
+        .mil-social-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .mil-social-item {
+            background: linear-gradient(135deg, var(--social-bg), var(--glass-bg));
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-light);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .mil-social-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 20px 20px 0 0;
+            transition: all 0.4s ease;
+        }
+
+        .mil-social-item:nth-child(1)::before {
+            background: linear-gradient(90deg, #0077b5, #00a0dc);
+        }
+
+        .mil-social-item:nth-child(2)::before {
+            background: linear-gradient(90deg, #333, #666);
+        }
+
+        .mil-social-item:nth-child(3)::before {
+            background: linear-gradient(90deg, #e1306c, #f56040, #ffdc80);
+        }
+
+        .mil-social-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px var(--shadow-medium);
+        }
+
+        .mil-social-item:nth-child(1):hover {
+            border-color: rgba(0, 119, 181, 0.3);
+        }
+
+        .mil-social-item:nth-child(2):hover {
+            border-color: rgba(51, 51, 51, 0.3);
+        }
+
+        .mil-social-item:nth-child(3):hover {
+            border-color: rgba(225, 48, 108, 0.3);
+        }
+
+        .mil-social-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px var(--shadow-light);
+        }
+
+        .mil-social-item:nth-child(1) .mil-social-icon {
+            background: linear-gradient(135deg, #0077b5, #00a0dc);
+        }
+
+        .mil-social-item:nth-child(2) .mil-social-icon {
+            background: linear-gradient(135deg, #333, #666);
+        }
+
+        .mil-social-item:nth-child(3) .mil-social-icon {
+            background: linear-gradient(135deg, #e1306c, #f56040);
+        }
+
+        .mil-social-item:hover .mil-social-icon {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 25px var(--shadow-medium);
+        }
+
+        .mil-social-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .mil-social-content {
+            flex: 1;
+        }
+
+        .mil-social-item h5 {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .mil-social-item p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* Responsive Düzenlemeler */
+        @media (max-width: 768px) {
+            .mil-timeline::before {
+                left: 20px;
+            }
+
+            .mil-timeline-item {
+                padding-left: 60px;
+            }
+
+            .mil-timeline-item::before {
+                left: 8px;
+                width: 20px;
+                height: 20px;
+            }
+
+            .mil-timeline-date {
+                position: static;
+                display: inline-block;
+                margin-bottom: 15px;
+                left: auto;
+            }
+
+            .mil-timeline-content {
+                padding: 25px;
+            }
+
+            .mil-social-box {
+                grid-template-columns: 1fr;
+            }
+
+            .mil-social-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .mil-contact-item {
+                padding: 25px;
+            }
+        }
+
+        /* Animasyon Eklemeleri */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .mil-timeline-item::before {
+            animation: pulse 2s infinite;
+        }
+
+        .mil-timeline-item:hover::before {
+            animation: none;
+        }
+
+        /* Gradient Overlaylar */
+        .mil-timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(99, 102, 241, 0.02) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .mil-timeline-content:hover::after {
+            opacity: 1;
+        }
+
+        .mil-contact-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(16, 185, 129, 0.02) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .mil-contact-item:hover::after {
+            opacity: 1;
+        }
+
+        .mil-social-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.03) 100%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .mil-social-item:hover::after {
+            opacity: 1;
+        }
+
+        /* Ek Dark Mode Stilleri */
+        [data-theme="dark"] .mil-page-wrapper {
+            background-color: var(--bg-primary);
+        }
+
+        [data-theme="dark"] .mil-head1,
+        [data-theme="dark"] .mil-head3,
+        [data-theme="dark"] .mil-head4,
+        [data-theme="dark"] .mil-head5 {
+            color: var(--text-primary) !important;
+        }
+
+        [data-theme="dark"] .mil-text-md,
+        [data-theme="dark"] .mil-text-sm {
+            color: var(--text-secondary) !important;
+        }
+
+        [data-theme="dark"] .mil-stylized {
+            color: var(--text-accent) !important;
+        }
+
+        [data-theme="dark"] .mil-a1,
+        [data-theme="dark"] .mil-a2 {
+            color: var(--text-accent) !important;
+        }
+
+        /* Dark mode'da preloader */
+        [data-theme="dark"] .mil-preloader {
+            background-color: var(--bg-primary);
+        }
+
+        [data-theme="dark"] .mil-preloader .mil-head1 {
+            color: var(--text-primary) !important;
+        }
+
+        /* Light mode'da preloader */
+        [data-theme="light"] .mil-preloader {
+            background-color: var(--bg-primary);
+        }
+
+        [data-theme="light"] .mil-preloader .mil-head1 {
+            color: var(--text-primary) !important;
+        }
+
+        /* Preloader animasyon geliştirmeleri */
+        .mil-preloader {
+            background-color: var(--bg-primary);
+            transition: background-color 0.3s ease;
+        }
+
+        .mil-preloader .mil-head1 {
+            color: var(--text-primary) !important;
+            transition: color 0.3s ease;
+        }
+
+        .mil-preloader .mil-a2 {
+            color: var(--text-accent) !important;
+            transition: color 0.3s ease;
+        }
+
+        /* Preloader reveal box için theme uyumlu renkler */
+        .mil-reveal-box {
+            background-color: var(--text-accent) !important;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Preloader animasyon efektleri */
+        .mil-preloader-animation {
+            position: relative;
+        }
+
+        .mil-preloader-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, var(--text-accent) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: preloaderPulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes preloaderPulse {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Dark mode'da özel preloader gradient */
+        [data-theme="dark"] .mil-preloader-animation::before {
+            background: radial-gradient(circle at center, var(--text-accent) 0%, transparent 50%);
+        }
+
+        /* Preloader text shadow efektleri */
+        [data-theme="dark"] .mil-preloader .mil-head1 {
+            text-shadow: 0 2px 10px rgba(129, 140, 248, 0.3);
+        }
+
+        [data-theme="light"] .mil-preloader .mil-head1 {
+            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+        }
+
+        [data-theme="dark"] .mil-preloader .mil-a2 {
+            text-shadow: 0 2px 15px rgba(129, 140, 248, 0.5);
+        }
+
+        [data-theme="light"] .mil-preloader .mil-a2 {
+            text-shadow: 0 2px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Dark mode'da hero bölümü */
+        [data-theme="dark"] .mil-hero-1 {
+            background-color: var(--bg-primary);
+        }
+
+        [data-theme="dark"] .mil-display1 {
+            color: var(--text-primary) !important;
+        }
+
+        /* Dark mode'da iconbox */
+        [data-theme="dark"] .mil-iconbox h4 {
+            color: var(--text-primary) !important;
+        }
+
+        [data-theme="dark"] .mil-iconbox p {
+            color: var(--text-secondary) !important;
+        }
+
+        /* Dark mode'da services */
+        [data-theme="dark"] .mil-service-item h3 {
+            color: var(--text-primary) !important;
+        }
+
+        [data-theme="dark"] .mil-service-item p {
+            color: var(--text-secondary) !important;
+        }
+
+        /* Dark mode'da counter */
+        [data-theme="dark"] .mil-offset-number {
+            color: var(--text-primary) !important;
+        }
+
+        [data-theme="dark"] .mil-counter-text h5 {
+            color: var(--text-primary) !important;
+        }
+
+        /* Theme toggle gelişmiş animasyonlar */
+        .theme-toggle {
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .theme-toggle:hover::before {
+            left: 100%;
+        }
+
+        .theme-text {
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar for dark mode */
+        [data-theme="dark"]::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        [data-theme="dark"]::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        [data-theme="dark"]::-webkit-scrollbar-thumb {
+            background: var(--text-accent);
+            border-radius: 4px;
+        }
+
+        [data-theme="dark"]::-webkit-scrollbar-thumb:hover {
+            background: #8b5cf6;
+        }
+
+        /* Light mode scrollbar */
+        [data-theme="light"]::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        [data-theme="light"]::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        [data-theme="light"]::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 4px;
+        }
+
+        [data-theme="light"]::-webkit-scrollbar-thumb:hover {
+            background: #4f46e5;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -33,6 +793,14 @@
         <!-- cursor -->
         <div class="mil-cursor-follower"></div>
         <!-- cursor end -->
+
+        <!-- Dark/Light Mode Toggle -->
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+            <i class="fas fa-sun" aria-hidden="true"></i>
+            <span class="theme-text">Dark Mode</span>
+        </button>
+        <!-- Dark/Light Mode Toggle end -->
 
         <!-- preloader -->
         <div class="mil-preloader">
@@ -423,6 +1191,144 @@
 
     <!-- pixy js -->
     <script src="js/main.js"></script>
+
+    <!-- Dark/Light Mode JavaScript -->
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update button text
+            const themeText = document.querySelector('.theme-text');
+            themeText.textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+            
+            // Add smooth transition effect
+            document.body.style.transition = 'all 0.3s ease';
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 300);
+        }
+
+        // Initialize theme on page load
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            
+            document.documentElement.setAttribute('data-theme', theme);
+            
+            // Update button text
+            const themeText = document.querySelector('.theme-text');
+            if (themeText) {
+                themeText.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+            }
+        }
+
+        // Initialize theme when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeTheme);
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) {
+                const theme = e.matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                const themeText = document.querySelector('.theme-text');
+                if (themeText) {
+                    themeText.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+                }
+            }
+        });
+
+        // Keyboard shortcut for theme toggle (Ctrl/Cmd + Shift + L)
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'L') {
+                e.preventDefault();
+                toggleTheme();
+            }
+        });
+
+        // Add smooth animations to timeline items
+        function addTimelineAnimations() {
+            const timelineItems = document.querySelectorAll('.mil-timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            timelineItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(50px)';
+                item.style.transition = 'all 0.6s ease';
+                observer.observe(item);
+            });
+        }
+
+        // Add smooth animations to contact and social items
+        function addContactAnimations() {
+            const contactItems = document.querySelectorAll('.mil-contact-item, .mil-social-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) scale(1)';
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            contactItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px) scale(0.95)';
+                item.style.transition = 'all 0.5s ease';
+                observer.observe(item);
+            });
+        }
+
+        // Initialize animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                addTimelineAnimations();
+                addContactAnimations();
+            }, 1000);
+        });
+
+        // Add theme transition class for smooth switching
+        function addThemeTransition() {
+            document.documentElement.style.transition = 'all 0.3s ease';
+            setTimeout(() => {
+                document.documentElement.style.transition = '';
+            }, 300);
+        }
+
+        // Enhanced theme toggle with animation
+        function enhancedToggleTheme() {
+            addThemeTransition();
+            toggleTheme();
+            
+            // Add a subtle pulse effect to the toggle button
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                toggleBtn.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        // Replace the toggle function
+        document.querySelector('.theme-toggle').onclick = enhancedToggleTheme;
+    </script>
 
 </body>
 
