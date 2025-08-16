@@ -1022,6 +1022,27 @@
     <!-- pixy js -->
     <script src="js/main.js"></script>
 
+    <!-- Mobil Scroll Fix -->
+    <script>
+        // Mobil cihazlarda scroll sorununu çözmek için
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mobil cihaz kontrolü
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // ScrollSmoother örneğini bulup mobil cihazlar için smoothTouch'ı sıfırlama
+                if (window.ScrollSmoother && ScrollSmoother.get()) {
+                    ScrollSmoother.get().kill(); // Mevcut ScrollSmoother'ı kaldır
+                    
+                    // Yeni bir ScrollSmoother oluştur, mobil için smoothTouch=0
+                    ScrollSmoother.create({
+                        smooth: 1,
+                        effects: true,
+                        smoothTouch: 0, // Dokunmatik ekranlar için kapalı
+                    });
+                }
+            }
+        });
+    </script>
+
     <!-- Dark/Light Mode JavaScript -->
     <script>
         // Theme toggle functionality
